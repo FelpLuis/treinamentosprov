@@ -7,6 +7,7 @@ Mesmo servidor do portal: o nginx + certbot já estão lá e o portal responde e
 dig +short treinamentos.updown.com.br @8.8.8.8      # tem de responder 190.111.110.13
 
 # 2. Portal atualizado (setores dos usuários + /sso/quem + sistemas "Treinamentos")
+#    antes: faça o merge do PR https://github.com/FelpLuis/portalprov/pull/1
 cd ~/portalprov && git pull && sudo bash deploy/instalar.sh
 
 # 3. Treinamentos
