@@ -1,0 +1,14 @@
+{
+  "name": "treinamentos-updown",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Treinamentos UPDOWN: manuais, treinamentos e passo a passo por setor, com login único do Portal UPDOWN.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "DEV_USUARIO=luis.felipe node server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check server.mjs && for f in public/js/*.js; do node --check $f; done"
+  }
+}

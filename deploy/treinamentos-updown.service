@@ -1,0 +1,20 @@
+[Unit]
+Description=Treinamentos UPDOWN (manuais e treinamentos por setor)
+After=network.target portal-noc.service
+
+[Service]
+User=treinamentos
+Group=treinamentos
+WorkingDirectory=/opt/treinamentos-updown
+EnvironmentFile=/etc/treinamentos-updown.env
+ExecStart=/usr/bin/node server.mjs
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/treinamentos-updown
+
+[Install]
+WantedBy=multi-user.target
