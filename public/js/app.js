@@ -119,10 +119,14 @@
         if (!d || meu !== seq) return;
         sel = -1;
         caixa.innerHTML = d.resultados.length
-          ? d.resultados.slice(0, 6).map((r, i) => `<a role="option" id="${caixa.id}-${i}" href="#/t/${esc(r.id)}?etapa=${r.etapa}&q=${encodeURIComponent(q)}" class="sug" style="--c:${esc(corDe(r))}">
-              <span class="sug-ico">${icone(r.icone || "camadas")}</span><span><strong>${esc(r.titulo)}</strong><small>${r.etapas > 1 ? `${esc(r.etapa_titulo)} · ` : ""}${esc(r.trecho.slice(0, 110))}</small></span></a>`).join("") +
-            `<a class="sug sug-todos" href="#/busca?q=${encodeURIComponent(q)}">${icone("busca")}Ver todos os resultados para “${esc(q)}”</a>`
-          : `<div class="sug sug-nada">Nada encontrado para “${esc(q)}”. Tente outras palavras ou <a href="#/busca?q=${encodeURIComponent(q)}">veja a busca completa</a>.</div>`;
+          ? `<div class="sug-cab"><span>${d.resultados.length === 1 ? "1 treinamento responde" : `${Math.min(d.resultados.length, 6)} de ${d.resultados.length} treinamentos`}</span><span><kbd>↑</kbd> <kbd>↓</kbd> para escolher · <kbd>Enter</kbd> para abrir</span></div>
+            <div class="sug-lista">${d.resultados.slice(0, 6).map((r, i) => `<a role="option" id="${caixa.id}-${i}" href="#/t/${esc(r.id)}?etapa=${r.etapa}&q=${encodeURIComponent(q)}" class="sug" style="--c:${esc(corDe(r))}">
+              <span class="sug-ico">${icone(r.icone || "camadas")}</span>
+              <span class="sug-titulo">${marcar(r.titulo, d.termos)}</span>
+              ${r.etapas > 1 ? `<span class="sug-etapa">Etapa ${r.etapa + 1}: ${marcar(r.etapa_titulo, d.termos)}</span>` : ""}
+              <span class="sug-trecho">${marcar(r.trecho, d.termos)}</span></a>`).join("")}</div>
+            <a class="sug sug-todos" href="#/busca?q=${encodeURIComponent(q)}${setorId ? `&setor=${setorId}` : ""}">${icone("busca")}Ver todos os resultados para “${esc(q)}”</a>`
+          : `<div class="sug-nada">Nada encontrado para “${esc(q)}”. Tente outras palavras ou <a href="#/busca?q=${encodeURIComponent(q)}">veja a busca completa</a>.</div>`;
         caixa.hidden = false;
         input.setAttribute("aria-expanded", "true");
       }, 140);

@@ -146,10 +146,15 @@
   P.check_c2 = P.check2;
   const icone = (k, sw = 1.8) => `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[k] || P.arquivo}</svg>`;
 
-  // Monograma UPDOWN em traço (setas para cima e para baixo), usado nas capas geradas
-  const chevrons = (cls = "") => `<svg class="chev ${cls}" viewBox="0 0 120 120" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
-    <path class="c-up" d="M22 52 L48 26 L74 52"/><path class="c-up" d="M22 76 L48 50 L74 76" opacity=".55"/>
-    <path class="c-dn" d="M46 44 L72 70 L98 44" opacity=".55"/><path class="c-dn" d="M46 68 L72 94 L98 68"/></svg>`;
+  // Símbolo oficial UPDOWN (o mesmo desenho do favicon), em traço para o fundo e as capas
+  const simbolo = (cls = "") => `<svg class="chev ${cls}" viewBox="580 280 850 850" aria-hidden="true" fill="none" stroke-linejoin="round">
+    <g class="s-u" stroke="#0BBBEF">
+      <path pathLength="1" d="M612 682L680 727L748 682V800C748 892 814 967 898 967C978 967 1044 906 1044 830V727L1113 675L1183 727V820C1183 972 1055 1097 898 1097C740 1097 612 968 612 810Z"/>
+      <path pathLength="1" d="M1398 730L1329 685L1261 730V600C1261 515 1198 445 1113 445C1032 445 966 508 966 585V685L897 737L827 685V585C827 436 956 315 1113 315C1270 315 1398 443 1398 600Z"/></g>
+    <g class="s-v" stroke="#9B00FF">
+      <path pathLength="1" d="M610 500L680 550L750 500V620L680 673L610 620Z"/><path pathLength="1" d="M827 738L897 788L967 738V858L897 910L827 858Z"/>
+      <path pathLength="1" d="M1042 553L1112 500L1182 553V672L1112 623L1042 672Z"/><path pathLength="1" d="M1259 790L1329 738L1399 790V910L1329 860L1259 910Z"/></g></svg>`;
+  const chevrons = simbolo;
 
   // Tema claro/escuro
   const TEMA = "treinamentos-tema";

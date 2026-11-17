@@ -605,7 +605,7 @@ export function buscar(q, u, { setor = "", limite = 30 } = {}) {
   const SINTETICOS = new Set(["semconexao", "luzvermelha", "2via"]);
   const crus = String(q).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(/[^a-z0-9]+/)
     .filter((w) => w.length > 1 && !VAZIAS_PT.has(w) && w !== "sem").map(radical);
-  const termosTexto = [...new Set([...crus, ...exp.flatMap((l) => l.filter((x) => x.p >= 0.6).map((x) => x.w))])].filter((w) => !SINTETICOS.has(w));
+  const termosTexto = [...new Set([...crus, ...exp.flatMap((l) => l.filter((x) => x.p >= 0.6).map((x) => x.w))])].filter((w) => !SINTETICOS.has(w) && !FRACOS.has(w));
   const ordenados = [...porTreino.values()]
     .map((r) => ({ ...r, score: r.score * (1 + Math.min(r.extra, 4) * 0.05) }))
     .sort((a, b) => b.score - a.score);
