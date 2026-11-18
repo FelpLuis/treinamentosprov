@@ -301,7 +301,9 @@ export function sanitizar(html) {
       const nome = a[1].toLowerCase();
       if (!TAGS[tag].includes(nome)) continue;
       let v = (a[3] ?? a[4] ?? a[5] ?? "").replace(/&amp;/g, "&").trim();
-      if (nome === "href" && !/^(https?:|mailto:|tel:|#|\/(?!\/))/i.test(v)) continue;
+      // "/caminho" sim; "//host" e "/\host" nao (o navegador trata "/\" como "//" e sai do site).
+      // Caractere de controle no meio (ex.: "java\tscript:") tambem nao.
+      if (nome === "href" && (!/^(https?:|mailto:|tel:|#|\/(?![\/\\]))/i.test(v) || /[\u0000-\u001F]/.test(v))) continue;
       if (nome !== "href" && !/^\d{1,2}$/.test(v)) continue;
       attrs.push(` ${nome}="${escAttr(v)}"`);
     }

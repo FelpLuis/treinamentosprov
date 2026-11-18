@@ -153,3 +153,27 @@ test("sanitizador mantém só a formatação permitida", () => {
   assert.match(sanitizar('<a href="https://x.com">x</a>'), /target="_blank" rel="noopener noreferrer"/);
   assert.equal(sanitizar('<a href="#/t/abc?etapa=1">x</a>'), '<a href="#/t/abc?etapa=1">x</a>');
 });
+
+test("sanitizador resiste a payloads conhecidos de XSS e redirecionamento", () => {
+  const semHref = (h) => assert.doesNotMatch(sanitizar(h), /href=/, h);
+  semHref('<a href="javascript:alert(1)">x</a>');
+  semHref('<a href="JaVaScRiPt:alert(1)">x</a>');
+  semHref('<a href="&#106;avascript:alert(1)">x</a>');
+  semHref('<a href="java\tscript:alert(1)">x</a>');
+  semHref('<a href="data:text/html,<script>alert(1)</script>">x</a>');
+  semHref('<a href="//evil.example">x</a>');
+  semHref('<a href="/\\evil.example">x</a>');
+  assert.equal(sanitizar('<a href="/t/abc">x</a>'), '<a href="/t/abc">x</a>');
+  const semAtivo = (h) => assert.doesNotMatch(sanitizar(h), /<(script|img|svg|iframe|style)|\son\w+=|javascript:/i, h);
+  semAtivo("<scr<script>ipt>alert(1)</script>");
+  semAtivo('<svg><script>alert(1)</script></svg>');
+  semAtivo('<svg/onload=alert(1)>');
+  semAtivo('<p onmouseover="alert(1)">x</p>');
+  semAtivo('<b title="a>b<img src=x onerror=alert(1)>">x</b>');
+  semAtivo('<a href="https://x.com" onclick="alert(1)">x</a>');
+  semAtivo('<!--><img src=x onerror=alert(1)>-->');
+  semAtivo('<math><mtext><table><mglyph><style><img src=x onerror=alert(1)>');
+  semAtivo('<td colspan="1 onmouseover=alert(1)">x</td>');
+  assert.equal(sanitizar('<a href="https://x.com/?a=1&amp;b=2">x</a>'),
+    '<a href="https://x.com/?a=1&amp;b=2" target="_blank" rel="noopener noreferrer">x</a>');
+});
